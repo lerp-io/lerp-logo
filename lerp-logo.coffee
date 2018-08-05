@@ -23,7 +23,7 @@ class LerpLogo extends Component
 			uniforms: 
 				iTime:
 					type: '1f'
-					value: 0.0
+					value: @props.t
 				alpha:
 					type: '1f'
 					value: 0.0
@@ -33,10 +33,10 @@ class LerpLogo extends Component
 
 		@stage = 
 			alpha: -4
-			time: -1
+			time: @props.t * -1
 		@state = 
 			alpha: @props.alpha
-			time: 1
+			time: @props.t
 		@box.add(@shader)
 
 		if !@_anim
@@ -73,8 +73,6 @@ class LerpLogo extends Component
 			@base.height = props.size || 50
 			@shader.uniforms.size.value = props.size || 50
 		my_props = 
-			style:
-				cursor: 'pointer'
 			width: props.size || 50
 			height: props.size || 50
 		Object.assign my_props,props
@@ -83,5 +81,6 @@ class LerpLogo extends Component
 
 LerpLogo.defaultProps = 
 	alpha: 1
+	t: 1
 
 module.exports = LerpLogo

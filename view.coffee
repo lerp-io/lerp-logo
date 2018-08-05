@@ -13,13 +13,9 @@ class App extends Component
 			className: 'main'
 			h LerpLogo,
 				time: @state.time
-				size: 150
+				size: 250
 				onClick: =>
-					if @state.time < 0
-						t = 1
-					else
-						t = -1
 					@setState
-						time: t
+						time: @state.time * -1
 
 window.app = render(h(App),document.body)
