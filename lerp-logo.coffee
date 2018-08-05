@@ -5,8 +5,9 @@ lerp_shader = require './logo-shader.glsl'
 class LerpLogo extends Component
 	componentDidMount: ->
 		@_t = .1
-		@base.width = 50
-		@base.height = 50
+		@base.width = @props.size || 50
+		@base.height = @props.size || 50
+		
 		@box = new Box
 			canvas: @base
 			resize: false
@@ -26,12 +27,15 @@ class LerpLogo extends Component
 				alpha:
 					type: '1f'
 					value: 0.0
+				size:
+					type: '1f'
+					value: @props.size || 50
 
 		@stage = 
 			alpha: -4
 			time: -1
 		@state = 
-			alpha: 1
+			alpha: @props.alpha
 			time: 1
 		@box.add(@shader)
 
@@ -39,10 +43,7 @@ class LerpLogo extends Component
 			@_anim = true
 			@draw()
 	onClick: =>
-		if @stage.time < 0
-			@state.time = 1
-		else
-			@state.time = -1
+		
 		@draw()
 	draw: ()=>
 		if !@base
@@ -58,15 +59,29 @@ class LerpLogo extends Component
 		
 		requestAnimationFrame(@draw)
 		@box.clear().draw(@shader)
+	
+	componentWillUpdate: (props)->
+		if props.time != @state.time
+			@state.time = props.time
+			@draw()
 
+			
 
-	render: ->
-		h 'canvas',
+	render: (props)->
+		if @base
+			@base.width = props.size || 50
+			@base.height = props.size || 50
+			@shader.uniforms.size.value = props.size || 50
+		my_props = 
 			style:
 				cursor: 'pointer'
-			onClick: @onClick
-			width: 50
-			height: 50
+			width: props.size || 50
+			height: props.size || 50
+		Object.assign my_props,props
+		
+		h 'canvas',my_props
 
+LerpLogo.defaultProps = 
+	alpha: 1
 
 module.exports = LerpLogo

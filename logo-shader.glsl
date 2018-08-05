@@ -4,6 +4,8 @@ varying vec2 v_uv;
 
 uniform float iTime;
 
+uniform float size;
+
 uniform float alpha;
 
 
@@ -64,15 +66,15 @@ void main(){
 
 
     float d = drawStar(uv,t,bend);
-    float col = clamp(d*90.0,.0,1.);
+    float col = clamp(d*size*1.6,.0,1.);
 
-    d = drawStar(uv,t+0.5,bend);
-    float col2 = clamp(d*90.0,.0,1.);
+    // d = drawStar(uv,t+0.5,bend);
+    // float col2 = clamp(d*size*1.6,.0,1.);
 
     // d = drawStar(uv,-t*.5,bend);
     // float col3 = clamp(d*90.0,.0,1.);
 
 
 
-    gl_FragColor = vec4(vec3(0.25+col2*0.2,0.25+col2*0.3,0.25+col2*0.35),1.0-col);
+    gl_FragColor = vec4(vec3(0.25),1.0-col);
 }
