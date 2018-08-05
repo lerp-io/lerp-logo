@@ -4,7 +4,7 @@ lerp_shader = require './logo-shader.glsl'
 
 class LerpLogo extends Component
 	componentDidMount: ->
-		@_t = .1
+
 		@base.width = @props.size || 50
 		@base.height = @props.size || 50
 		
@@ -23,7 +23,7 @@ class LerpLogo extends Component
 			uniforms: 
 				iTime:
 					type: '1f'
-					value: @props.t
+					value: @props.time
 				alpha:
 					type: '1f'
 					value: 0.0
@@ -33,17 +33,18 @@ class LerpLogo extends Component
 
 		@stage = 
 			alpha: -4
-			time: @props.t * -1
+			time: @props.time * -1
 		@state = 
 			alpha: @props.alpha
-			time: @props.t
+			time: @props.time
 		@box.add(@shader)
+
+
 
 		if !@_anim
 			@_anim = true
 			@draw()
 	onClick: =>
-		
 		@draw()
 	draw: ()=>
 		if !@base
